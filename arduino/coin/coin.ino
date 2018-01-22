@@ -34,7 +34,7 @@ const char* token = "";
 const char* username = "";
 const char* uid = "";
 const char* action = "";
-int countChange = 0;
+const char* countChange = "";
 
 bool username_print = 0;
 
@@ -42,7 +42,7 @@ String arduino_token = "ZoqH1lhVpN3hPlo5Bwy0uqxqjiCVZet6";
 
 void setup() {
   
-  Serial.begin(57600);
+  Serial.begin(9600);
   while (!Serial) {
     // wait serial port initialization
   }
@@ -51,7 +51,7 @@ void setup() {
   
   // Interrupt pin 2.
   pinMode(2, INPUT_PULLUP);
-  // Interrupt pin 2.
+  // Interrupt pin 3.
   pinMode(3, INPUT_PULLUP);
 
   // speaker;
@@ -66,12 +66,13 @@ void setup() {
   digitalWrite(relay_acceptor, HIGH);
   delay(50);
 
-  // Enable 0 interrupt for count acceptor.
-  attachInterrupt(0, count_acceptor_interrupt, FALLING);
+  // coin hopper relay
+  pinMode(relay, OUTPUT);
+  digitalWrite(relay, HIGH);
   delay(50);
 
-  // Enable 1 interrupt for coin hopper.
-  attachInterrupt(1, coin_hopper_interrupt, FALLING);
+  // Enable 0 interrupt for count acceptor.
+  attachInterrupt(0, count_acceptor_interrupt, FALLING);
   delay(50);
 }
 
@@ -206,17 +207,14 @@ void loop() {
     }
   }
   else if (String(token) == arduino_token && String(action) == "change") {
+
+    // Enable 1 interrupt for coin hopper.
+    attachInterrupt(1, coin_hopper_interrupt, RISING);
+    delay(50);
+    
     // Dispense hopper.
     // detach interrupt acceptor
     detachInterrupt (0);
-    
-    // turn-on coin acceptor
-    digitalWrite(relay_acceptor, LOW);
-    delay(50);
-
-    // detach interrupt acceptor
-    detachInterrupt (1);
-    delay(50);
 
     // turn-on relay
     digitalWrite(relay, LOW);
@@ -228,7 +226,7 @@ void loop() {
     int temphopperPulse = 0;
     int tempremains = 0;
 
-    while (hopperPulse < countChange) {
+    while (hopperPulse < String(countChange).toInt()) {
       if (hopperPulse > temphopperPulse) {
         currentMillis = millis();
       }
@@ -236,9 +234,6 @@ void loop() {
       
       // coin hopper dispensing
       if (millis() - currentMillis > 40000) {
-        // turn-off coin acceptor
-        digitalWrite(relay_acceptor, LOW);
-        delay(50);
         // turn-off relay
         digitalWrite(relay, HIGH);
         delay(50);
@@ -256,16 +251,21 @@ void loop() {
     // turn-off relay
     digitalWrite(relay, HIGH);
     delay(50);
-    
-    // turn-on coin acceptor
-    digitalWrite(relay_acceptor, HIGH);
-    delay(50);
 
     // attach again coin acceptor interrupt
     attachInterrupt(0, count_acceptor_interrupt, FALLING);
     delay(50);
+
+    // detach interrupt hopper
+    detachInterrupt (1);
     
-    // reset count
+    // reset count//reset json params
+    token = "";
+    username = "";
+    uid = "";
+    countChange = "";
+    username_print = 0;
+    countPulseChecker = 0;
     count = 0;
   }
 }
@@ -288,7 +288,7 @@ void coin_hopper_interrupt() {
   byte pin = digitalRead(3);
   static unsigned long last_interrupt_time = 0;
   unsigned long interrupt_time = millis();
-  if (pin == LOW && interrupt_time - last_interrupt_time > 120) {
+  if (pin == HIGH && interrupt_time - last_interrupt_time > 120) {
     hopperPulse += 1;
   } 
   last_interrupt_time = interrupt_time;
