@@ -70,11 +70,11 @@ void setup() {
   delay(50);
 
   // Enable 0 interrupt for count acceptor.
-  attachInterrupt(digitalPinToInterrupt(0), count_acceptor_interrupt, RISING);
+  attachInterrupt(0, count_acceptor_interrupt, FALLING);
   delay(50);
 
   // Enable 1 interrupt for coin hopper.
-  attachInterrupt(digitalPinToInterrupt(1), coin_hopper_interrupt, RISING);
+  attachInterrupt(1, coin_hopper_interrupt, FALLING);
   delay(50);
 }
 
@@ -158,7 +158,6 @@ void loop() {
     
     // ---------------- inserted coin is legit ---------------
     if (countInserted > 0 && bufferInserted == 1) {
-      countInserted = countInserted / 2;
       count += countInserted;
       countInserted = 0;
       bufferInserted = 0;
@@ -264,7 +263,7 @@ void loop() {
     delay(50);
 
     // attach again coin acceptor interrupt
-    attachInterrupt(digitalPinToInterrupt(0), count_acceptor_interrupt, RISING);
+    attachInterrupt(0, count_acceptor_interrupt, FALLING);
     delay(50);
     
     // reset count
@@ -273,9 +272,10 @@ void loop() {
 }
 
 void count_acceptor_interrupt() {
+  byte pin = digitalRead(2);
   static unsigned long last_interrupt_time = 0;
   unsigned long interrupt_time = millis();
-  if (interrupt_time - last_interrupt_time > 150 && bufferAcceptor == 0 && String(token) == arduino_token) {
+  if (pin == LOW && interrupt_time - last_interrupt_time > 150 && bufferAcceptor == 0 && String(token) == arduino_token) {
     pulseTime = millis();
     countPulse++;
     countPulseChecker++;
@@ -285,9 +285,10 @@ void count_acceptor_interrupt() {
 }
 
 void coin_hopper_interrupt() {
+  byte pin = digitalRead(3);
   static unsigned long last_interrupt_time = 0;
   unsigned long interrupt_time = millis();
-  if (interrupt_time - last_interrupt_time > 120) {
+  if (pin == LOW && interrupt_time - last_interrupt_time > 120) {
     hopperPulse += 1;
   } 
   last_interrupt_time = interrupt_time;
