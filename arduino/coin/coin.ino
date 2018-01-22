@@ -1,10 +1,7 @@
 // include the library code:
 #include <ArduinoJson.h>
 #include <Wire.h>
-#include <LiquidCrystal_I2C.h>
 #include <SoftwareSerial.h>
-
-LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
 
 SoftwareSerial centosSerial(10, 11); // RX, TX
 
@@ -16,7 +13,7 @@ byte relay = A2;
 // Variables
 long time_release = 400;
 long time_start = 0;
-int seconds = 5;
+int seconds = 10;
 long countInserted = 0;
 volatile long countPulse;
 volatile int hopperPulse = 0;
@@ -121,7 +118,7 @@ void loop() {
 
     // check if no activity for the user.
     // if no activity then disable the arduino
-    if (count == 0 && (countPulseChecker == 0 || countPulseChecker == 1) && millis() - code_start > 10000) {
+    if (count == 0 && (countPulseChecker == 0 || countPulseChecker == 1) && millis() - code_start > 30000) {
       // turn-off coin relay
       digitalWrite(relay_acceptor, HIGH);
       delay(50);
@@ -151,7 +148,7 @@ void loop() {
     if (countPulse > 0 && millis() - pulseTime > time_release) {
       countInserted = countPulse;
       countPulse = 0;
-      seconds = 5;
+      seconds = 10;
   
       bufferInserted = 1;
     }
@@ -162,6 +159,8 @@ void loop() {
       countInserted = 0;
       bufferInserted = 0;
       bufferWait = 1;
+
+      _beep();
     }
     // EOF ---------------- inserted coin is legit ---------------
     
@@ -186,7 +185,7 @@ void loop() {
 
       _beep();
     
-      seconds = 5;
+      seconds = 10;
       count = 0;
       send_coin = 0;
       //reset json params
@@ -275,7 +274,8 @@ void count_acceptor_interrupt() {
   byte pin = digitalRead(2);
   static unsigned long last_interrupt_time = 0;
   unsigned long interrupt_time = millis();
-  if (pin == LOW && interrupt_time - last_interrupt_time > 150 && bufferAcceptor == 0 && String(token) == arduino_token) {
+
+  if (pin == LOW && interrupt_time - last_interrupt_time > 80 && bufferAcceptor == 0 && String(token) == arduino_token) {
     pulseTime = millis();
     countPulse++;
     countPulseChecker++;
