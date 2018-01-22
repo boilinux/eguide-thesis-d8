@@ -1,0 +1,113 @@
+// Default variables.
+@import "default-variables";
+
+// Bootstrap Framework.
+@import '../bootstrap/assets/stylesheets/bootstrap';
+
+// Base-theme overrides.
+@import 'overrides';
+
+.path-frontpage {
+	h1.page-header {
+		font-size: 25px;
+	}
+}
+
+body.user-logged-in {
+	h1 {
+		font-size: 25px;
+	}
+	h2 {
+		font-size: 20px;
+	}
+	.nav > li > a {
+		/*padding: 5px 10px;*/
+	}
+
+	input.form-file {
+		height: 100%;
+	}
+	aside {
+		section {
+			h2.block-title {
+				margin-top: 0;
+			}
+			div.view-print-block {
+				.item {
+					display: block;
+					
+					.file-type {
+						display: inline-block;
+						width: 100%;
+						margin-right: 10px;
+					}	
+					.file-print {
+						display: inline-block;
+						vertical-align: top;
+						padding: 7px 0;
+					}
+				}
+			}
+		}
+	}
+
+	#block-yourcredits {
+		margin-bottom: 30px;
+
+		div.user-credit {
+			div.credit-text {
+				display: inline-block;
+				font-size: 18px;
+				margin-right: 15px;
+
+				.glyphicon-info-sign {
+					color: red;
+				}
+			}
+
+			div.user-topup {
+				display: inline-block;
+
+				a.btn {
+					font-size: 15px;
+				}
+			}
+		}
+	}
+
+	div.popup_box {
+		display: block;
+		position: fixed;
+		height: 400px;
+		width: 300px;
+		background: #fff;
+		left: 50%;
+		top: 40%;
+		margin-left: -150px;
+		margin-top: -150px;
+		padding: 15px;
+		font-size: 15px;
+		-moz-box-shadow: 0 0 5px;
+		-webkit-box-shadow: 0 0 5px;
+		box-shadow: 0 0 5px;
+		z-index: 9999;
+		text-align: left;
+		overflow: hidden;
+		font-size: 40px;
+
+		span.glyphicon-alert{
+			color: red;
+		}
+	}
+
+	div.popup_fixed_bg {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background: #000;
+		opacity: 0.5;
+		z-index: 1100;
+	}
+}
