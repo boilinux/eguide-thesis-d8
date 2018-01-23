@@ -1,0 +1,5 @@
+name: 'eguide'
+type: module
+description: 'eguide custom module'
+core: 8.x
+package: 'Custom'

@@ -1,0 +1,7 @@
+
+eguide.eguide_form:
+  path: '/eguide/form'
+  defaults:
+    _form: '\Drupal\eguide\Form\eguideForm'
+  requirements:
+    _custom_access: '\Drupal\eguide\Controller\apiController::user_auth'

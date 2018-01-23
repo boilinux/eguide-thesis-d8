@@ -1,0 +1,14 @@
+{
+  "name": "drupal/eguide",
+  "type": "drupal-module",
+  "description": "eguide custom module",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/eguide",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/eguide",
+    "source": "http://cgit.drupalcode.org/eguide"
+  },
+  "require": { }
+}

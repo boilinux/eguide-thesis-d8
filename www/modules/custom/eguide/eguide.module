@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains eguide.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function eguide_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the eguide module.
+    case 'help.page.eguide':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('eguide custom module') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function eguide_theme() {
+  return [
+    'eguide' => [
+      'render element' => 'children',
+    ],
+  ];
+}
