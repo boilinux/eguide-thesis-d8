@@ -66,7 +66,7 @@ ser = serial.Serial('/dev/ttyUSB0', 57600, timeout=1)
 
 print "Serial initialize, done."
 
-os.system("sudo espeak " + voice + " \"Hi " + sys.argv[1] + ", please insert coin. You have 30 seconds to insert coin. After the beep.\"")
+os.system("espeak " + voice + " \"Hi " + sys.argv[1] + ", please insert coin. You have 30 seconds to insert coin. After the beep.\"")
 
 ser.write('{"token":"' + token + '","username":"' + sys.argv[1] + '","uid":"' + sys.argv[2] + '","action":"insert"}')
 
@@ -84,17 +84,17 @@ while 1:
 
         	# send credit if valid.
 		if (op == "insert_coin"):
-			os.system("sudo espeak " + voice + " \"Hi " + sys.argv[1] + ", you have successfully inserted, " + str(coin) + " pesos, Thank you.\"")
+			os.system("espeak " + voice + " \"Hi " + sys.argv[1] + ", you have successfully inserted, " + str(coin) + " pesos, Thank you.\"")
 
 			if (int(coin) > 5):
 				change = coin - 5
-				os.system("sudo espeak " + voice + " \"you have " + str(change) + " pesos worth of change.\"")
+				os.system("espeak " + voice + " \"you have " + str(change) + " pesos worth of change.\"")
 				ser.write('{"token":"' + token + '","username":"' + sys.argv[1] + '","uid":"' + sys.argv[2] + '","action":"change","change":"' + str(change) + '"}')
 
 			# send_credit(uid, coin)
 
 		if (op == "no_activity"):
-			os.system("sudo espeak " + voice + " \"Hi " + sys.argv[1] + ", you have not inserted a coin. Transaction cancelled.\"")
+			os.system("espeak " + voice + " \"Hi " + sys.argv[1] + ", you have not inserted a coin. Transaction cancelled.\"")
 			# send_activity(uid, "no_activity")
 
 		sys.exit()
