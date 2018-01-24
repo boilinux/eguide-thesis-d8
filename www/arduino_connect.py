@@ -61,12 +61,16 @@ def send_activity (uid, op):
 
 	sys.exit()
 
+def espeak_func (txt):
+	os.system('su - eguide -c \'' + txt + '\'')
+
 #serial initialize
 ser = serial.Serial('/dev/ttyUSB0', 57600, timeout=1)
 
 print "Serial initialize, done."
 
-os.system("espeak " + voice + " \"Hi " + sys.argv[1] + ", please insert coins or bill. You have 30 seconds to insert coin. After the beep.\"")
+espeaktxt = "espeak " + voice + " \"Hi " + sys.argv[1] + ", please insert coins or bill. You have 30 seconds to insert coin. After the beep.\""
+espeak_func(espeaktxt)
 
 ser.write('{"token":"' + token + '","username":"' + sys.argv[1] + '","uid":"' + sys.argv[2] + '","action":"insert"}')
 
@@ -84,17 +88,22 @@ while 1:
 
         	# send credit if valid.
 		if (op == "insert_coin"):
-			os.system("espeak " + voice + " \"Hi " + sys.argv[1] + ", you have successfully inserted, " + str(coin) + " pesos, Thank you.\"")
+			espeaktxt = "espeak " + voice + " \"Hi " + sys.argv[1] + ", you have successfully inserted, " + str(coin) + " pesos, Thank you.\""
+			espeak_func(espeaktxt)
 
 			if (int(coin) > 5):
 				change = coin - 5
-				os.system("espeak " + voice + " \"you have " + str(change) + " pesos worth of change.\"")
+				espeaktxt = "espeak " + voice + " \"you have " + str(change) + " pesos worth of change.\""
+				espeak_func(espeaktxt)
+
 				ser.write('{"token":"' + token + '","username":"' + sys.argv[1] + '","uid":"' + sys.argv[2] + '","action":"change","change":"' + str(change) + '"}')
 
 			# send_credit(uid, coin)
 
 		if (op == "no_activity"):
-			os.system("espeak " + voice + " \"Hi " + sys.argv[1] + ", you have not inserted a coin. Transaction cancelled.\"")
+			espeaktxt = "espeak " + voice + " \"Hi " + sys.argv[1] + ", you have not inserted a coin. Transaction cancelled.\""
+			espeak_func(espeaktxt)
+
 			# send_activity(uid, "no_activity")
 
 		sys.exit()
