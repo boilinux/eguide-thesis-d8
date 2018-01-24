@@ -90,8 +90,8 @@ class eguideForm extends FormBase {
     $username = \Drupal::database()->query("SELECT name FROM users_field_data WHERE uid = " . $uid)->fetchField();
 
     if ($form_state->getValue('op') == 'Insert Coin/Bill') {
-      exec("python " . $_SERVER['DOCUMENT_ROOT'] . "/arduino_connect.py " . $username . " " . $uid);
-
+      $out = exec("python " . $_SERVER['DOCUMENT_ROOT'] . "/arduino_connect.py " . $username . " " . $uid);
+      drupal_set_message($out);
       drupal_set_message("Please insert coin/bill.");
     }
     else if ($form_state->getValue('op') == 'Submit') {
