@@ -101,7 +101,7 @@ while 1:
 			# send_credit(uid, coin)
 
 		if (op == "no_activity"):
-			espeaktxt = "espeak " + voice + " \"Hi " + sys.argv[1] + ", you have not inserted a coin. Transaction cancelled.\""
+			espeaktxt = "espeak " + voice + " \"Hi " + sys.argv[1] + ", Transaction cancelled.\""
 			espeak_func(espeaktxt)
 
 			# send_activity(uid, "no_activity")
