@@ -66,7 +66,7 @@ ser = serial.Serial('/dev/ttyUSB0', 57600, timeout=1)
 
 print "Serial initialize, done."
 
-os.system("espeak " + voice + " \"Hi " + sys.argv[1] + ", please insert coin. You have 30 seconds to insert coin. After the beep.\"")
+os.system("espeak " + voice + " \"Hi " + sys.argv[1] + ", please insert coins or bill. You have 30 seconds to insert coin. After the beep.\"")
 
 ser.write('{"token":"' + token + '","username":"' + sys.argv[1] + '","uid":"' + sys.argv[2] + '","action":"insert"}')
 
