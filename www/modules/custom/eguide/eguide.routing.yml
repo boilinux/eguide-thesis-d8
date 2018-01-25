@@ -5,3 +5,11 @@ eguide.eguide_form:
     _form: '\Drupal\eguide\Form\eguideForm'
   requirements:
     _custom_access: '\Drupal\eguide\Controller\apiController::user_auth'
+
+eguide.save_data:
+  path: '/eguide/api/savedata'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\eguide\Controller\apiController::save_data'
+  requirements:
+    _access: 'TRUE'
