@@ -41,9 +41,8 @@ class apiController extends ControllerBase {
       $data = json_decode($post->getContent(), TRUE);
 
       $password = $post->headers->get('password');
-
-      $uid = $data['uid'];
-      $username = $data['username'];
+      $uid = $post->headers->get('uid');
+      $username = $post->headers->get('username');
 
       if ($password == 'ZoqH1lhVpN3hPlo5Bwy0uqxqjiCVZet6') {
         $values = [
