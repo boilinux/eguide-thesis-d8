@@ -7,53 +7,31 @@ import serial
 import json
 import os
 
-domain = "printme.local"
+domain = "192.168.8.130"
 token = "ZoqH1lhVpN3hPlo5Bwy0uqxqjiCVZet6"
-pulse = 0
-pulse_time = time.time()
 receieved = ""
 voice = "-ven-us+m3 -s150"
 
 headers = {
-	"Content-type": "application/x-www-form-urlencoded",
+	"Content-type": "application/json",
 	'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
 	'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+	'password': $token,
 }
 
 # Send credit to localhost.
-def send_credit (uid, amount):
+def send_data (uid, username):
 	global token
 	global domain
 	global headers
 
 	params = urllib.urlencode({
-		"token" : token,
-		"amount" : amount,
+		"username" : username,
 		"uid" : uid,
 	})
 
 	httpr = httplib.HTTPConnection(domain)
 	httpr.request("POST", "/api/data/create_credit", params, headers)
-
-	result = httpr.getresponse()
-
-	print result.status, result.reason
-
-	sys.exit()
-
-def send_activity (uid, op):
-	global token
-	global domain
-	global headers
-
-	params = urllib.urlencode({
-		"token" : token,
-		"op" : op,
-		"uid" : uid,
-	})
-
-	httpr = httplib.HTTPConnection(domain)
-	httpr.request("POST", "/api/data/create_activity", params, headers)
 
 	result = httpr.getresponse()
 
@@ -104,12 +82,10 @@ while 1:
 
 				ser.write('{"token":"' + token + '","username":"' + sys.argv[1] + '","uid":"' + sys.argv[2] + '","action":"change","change":"' + str(coin) + '"}')
 
-			# send_credit(uid, coin)
+			send_data(uid, sys.argv[1])
 
 		if (op == "no_activity"):
 			espeaktxt = "espeak " + voice + " \"Hi " + sys.argv[1] + ", Transaction cancelled.\""
 			espeak_func(espeaktxt)
-
-			# send_activity(uid, "no_activity")
 
 		sys.exit()
