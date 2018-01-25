@@ -48,7 +48,7 @@ class apiController extends ControllerBase {
         $values = [
           'type' => 'eguide_access',
           'uid' => 1,
-          'title' => $data['username'] . "-" . \Drupal::time()->getRequestTime(),
+          'title' => $username . "-" . \Drupal::time()->getRequestTime(),
           'field_user_id' => ['target_id' => $uid],
         ];
 
