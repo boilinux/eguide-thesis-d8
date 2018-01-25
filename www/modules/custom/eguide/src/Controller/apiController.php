@@ -28,7 +28,7 @@ class apiController extends ControllerBase {
   /**
    * save data.
    */
-  public function save_data(Request $post) {
+  public function eguide_save_data(Request $post) {
     $response = array();
 
     if (strpos($post->headers->get('Content-Type'), 'application/json') === 0) {
