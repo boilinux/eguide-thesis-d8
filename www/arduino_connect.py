@@ -12,22 +12,21 @@ token = "ZoqH1lhVpN3hPlo5Bwy0uqxqjiCVZet6"
 receieved = ""
 voice = "-ven-us+m3 -s150"
 
-headers = {
-	"Content-type": "application/json",
-	'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-	'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-	'password': token,
-}
-
 # Send credit to localhost.
 def send_data (uid, username):
 	global token
 	global domain
-	global headers
+
+	headers = {
+		"Content-type": "application/json",
+		'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+		'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+		'password': token,
+		'username': username,
+		'uid': uid,
+	}
 
 	params = urllib.urlencode({
-		"username" : username,
-		"uid" : uid,
 	})
 
 	httpr = httplib.HTTPConnection(domain)
