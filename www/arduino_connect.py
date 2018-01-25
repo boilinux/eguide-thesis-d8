@@ -88,10 +88,10 @@ while 1:
 
         	# send credit if valid.
 		if (op == "insert_coin"):
-			espeaktxt = "espeak " + voice + " \"Hi " + sys.argv[1] + ", you have successfully inserted, " + str(coin) + " pesos, Thank you.\""
-			espeak_func(espeaktxt)
-
 			if (int(coin) > 5):
+				espeaktxt = "espeak " + voice + " \"Hi " + sys.argv[1] + ", you have successfully inserted, " + str(coin) + " pesos, Thank you.\""
+				espeak_func(espeaktxt)
+
 				change = coin - 5
 				espeaktxt = "espeak " + voice + " \"you have " + str(change) + " pesos worth of change.\""
 				espeak_func(espeaktxt)
