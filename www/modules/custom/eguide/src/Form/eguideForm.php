@@ -93,7 +93,10 @@ class eguideForm extends FormBase {
       exec("python " . $_SERVER['DOCUMENT_ROOT'] . "/arduino_connect.py " . $username . " " . $uid);
     }
     else if ($form_state->getValue('op') == 'Submit') {
-      
+      $node = Node::load($form_state->getValue('nid'));
+
+      $node->field_access_status->value = "used";
+      $node->save();
     }
   }
 
