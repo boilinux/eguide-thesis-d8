@@ -31,7 +31,7 @@ def send_data (uid, username):
 	})
 
 	httpr = httplib.HTTPConnection(domain)
-	httpr.request("POST", "/api/data/create_credit", params, headers)
+	httpr.request("POST", "/eguide/api/savedata", params, headers)
 
 	result = httpr.getresponse()
 
@@ -40,7 +40,7 @@ def send_data (uid, username):
 	sys.exit()
 
 def espeak_func (txt):
-	os.system('su - eguide -c \'' + txt + '\'')
+	os.system('sudo su - eguide -c \'' + txt + '\'')
 
 #serial initialize
 ser = serial.Serial('/dev/ttyUSB0', 57600, timeout=1)
