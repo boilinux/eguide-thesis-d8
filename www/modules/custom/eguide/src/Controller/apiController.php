@@ -55,6 +55,10 @@ class apiController extends ControllerBase {
       else {
         $response = ['status' => 'failed'];
       }
+
+    }
+
+    return new JsonResponse($response);
   }
 
 }
