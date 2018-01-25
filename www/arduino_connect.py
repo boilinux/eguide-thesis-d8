@@ -98,7 +98,7 @@ while 1:
 
 				ser.write('{"token":"' + token + '","username":"' + sys.argv[1] + '","uid":"' + sys.argv[2] + '","action":"change","change":"' + str(change) + '"}')
 
-			else if (int(coin) < 5):
+			elif (int(coin) < 5):
 				espeaktxt = "espeak " + voice + " \"Hi " + sys.argv[1] + ", you have not inserted enough money. Please wait for your " + str(coin) + " pesos worth of change.\""
 				espeak_func(espeaktxt)
 
