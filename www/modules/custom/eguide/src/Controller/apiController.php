@@ -66,4 +66,42 @@ class apiController extends ControllerBase {
     return new JsonResponse($response);
   }
 
+  /**
+   * generate map.
+   */
+  public function generate_map(Request $post) {
+    $response = array();
+
+    if (strpos($post->headers->get('Content-Type'), 'application/json') === 0) {
+      $data = json_decode($post->getContent(), TRUE);
+
+      $password = $post->headers->get('password');
+
+      if ($password == 'ZoqH1lhVpN3hPlo5Bwy0uqxqjiCVZet6') {
+        $image_raw = $data['screenshot'];
+        $uid = $data['user_id'];
+
+        $filteredData = substr($image_raw, strpos($image_raw, ",")+1);
+        //Decode the string
+        $unencodedData = base64_decode($filteredData);   
+        //Save the image
+        $file_path = $_SERVER['DOCUMENT_ROOT'] . '/sites/default/files/mapscreenshot_' . $uid . '.png';
+        file_put_contents(, $unencodedData);
+
+        $node = Node::load($form_state->getValue('nid'));
+        $node->field_access_status->value = "used";
+        $node->save();
+
+        exec("sudo unoconv --stdout " . $file_path . " | lpr -P EPSON");
+
+      }
+      else {
+        $response = ['status' => 'failed'];
+      }
+
+    }
+
+    return new JsonResponse($response);
+  }
+
 }

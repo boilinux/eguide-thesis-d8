@@ -5,11 +5,11 @@ jQuery(function($) {
 			var coor = [30.201479, 120.155908];
 			var map = L.map('map_canvas2').setView(coor, 13);
 
-			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYm9pbGludXgiLCJhIjoiY2pkOXlybTN2MzVvbjMxcnp6dHc2NDAybyJ9.qdK7xyLfow0fwj4s4fCtDg', {
-		    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-		    maxZoom: 18,
+			L.tileLayer('https://api.tiles.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+        maxZoom: 13,
 		    id: 'mapbox.streets',
-		    accessToken: 'pk.eyJ1IjoiYm9pbGludXgiLCJhIjoiY2pkOXlybTN2MzVvbjMxcnp6dHc2NDAybyJ9.qdK7xyLfow0fwj4s4fCtDg'
+		    // accessToken: 'pk.eyJ1IjoiYm9pbGludXgiLCJhIjoiY2pkOXlybTN2MzVvbjMxcnp6dHc2NDAybyJ9.qdK7xyLfow0fwj4s4fCtDg'
 			}).addTo(map);
 
 			var popup = L.popup();
@@ -57,10 +57,40 @@ jQuery(function($) {
 
 	    // screenshot
 	    if ($('#map_canvas2').length) {
-		    $('#edit-print').click(function() {
-		    	$('body').html2canvas({
+		    $('a#take-screenshot').click(function(e) {
+		    	e.preventDefault();
+
+          $('#container-screenshot').prepend("<div class='alert alert-success fade in alert-dismissable'>Screenshot, Done. You can now print.</div>");
+          $('a#take-screenshot').hide();
+          $('#edit-print').attr('style', 'display:block;');
+		    	
+		    });
+
+		    // print
+		    $('a#edit-print').click(function(e) {
+		    	e.preventDefault();
+
+		    	$('#map_canvas2').html2canvas({
 			        onrendered: function (canvas) {
-			            $('#edit-screenshot').val(canvas.toDataURL("image/png"));
+			        		var img = canvas.toDataURL("image/png");
+			        		var data = JSON.stringify({"screenshot": img, 'user_id': $('input[name="user_id"]').val()});
+			        		
+			        		$('#edit-screenshot2').val(img);
+
+			        		$.ajax({
+								    url: '/eguide/api/generate_map',
+								    dataType: 'json',
+								    contentType: 'application/json; charset=UTF-8', // This is the money shot
+								    headers: {"password": "ZoqH1lhVpN3hPlo5Bwy0uqxqjiCVZet6"},
+								    data: data,
+								    type: 'POST',
+								    success: function(result) {
+
+						        },
+						        error: function(result) {
+						          alert('error');
+						        }
+									});
 			        },
 			        proxy: '/html2canvas-php-proxy/html2canvasproxy.php'
 			    });

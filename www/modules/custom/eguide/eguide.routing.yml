@@ -13,3 +13,11 @@ eguide.save_data:
     _controller: '\Drupal\eguide\Controller\apiController::eguide_save_data'
   requirements:
     _access: 'TRUE'
+
+eguide.generate_map:
+  path: '/eguide/api/generate_map'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\eguide\Controller\apiController::generate_map'
+  requirements:
+    _access: 'TRUE'

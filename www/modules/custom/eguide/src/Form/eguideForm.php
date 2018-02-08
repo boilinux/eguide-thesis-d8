@@ -24,6 +24,7 @@ class eguideForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $print_buffer = 0;
     $output = "";
 
     $uid = \Drupal::currentUser()->id();
@@ -40,6 +41,8 @@ class eguideForm extends FormBase {
       '#type' => 'hidden',
       '#default_value' => $uid,
     ];
+
+    $form['actions']['#type'] = 'actions';
 
     // check for destination
     $eguide_destination = $tempstore->get('eguide_destination');
@@ -72,29 +75,30 @@ class eguideForm extends FormBase {
 
       $output .= "<ul>" . $li . "</ul>";
 
-      $form['screenshot'] = [
+      $form['screenshot2'] = [
         '#type' => 'textarea',
-        '#title' => $this->t('screenshot'),
+        '#title' => $this->t('screenshot2'),
+        '#default_value' => "test only"
       ];
-      $form['print'] = [
-        '#type' => 'submit',
-        '#value' => $this->t('Print'),
-        '#suffix' => "<div id='map-container'><div id='map_canvas2'></div></div>" . $output,
+
+      $form['button_screenshot'] = [
+        '#markup' => "<div id='container-screenshot'><a href='#' id='take-screenshot' class='btn btn-primary'>Screenshot</a><a href='#' id='edit-print' class='use-ajax btn btn-info'>Print</a></div><div id='map-container'><div id='map_canvas2'></div></div>" . $output,
       ];
 
       $tempstore->set('eguide_destination', '');
+      $print_buffer = 1;
     }
 
     $check_python_running = exec("ps -e | grep python");
     if (!empty($check_python_running)) {
-      $form['submit'] = [
-        '#type' => 'submit',
-        '#value' => $this->t('Refresh page'),
-        '#prefix' => '<h2>The system is busy. Please try again later.</h2>'
+
+      $form['button_screenshot'] = [
+        '#markup' => "<h2>The system is busy. Please try again later.</h2><div id='container'><a href='/eguide/form' class='btn btn-primary'>Refresh page.</a></div>",
       ];
+
       $tempstore->set('eguide_destination', '');
     }
-    else if (!empty($nid)) {
+    else if (!empty($nid) && !$print_buffer) {
 
       $form['nid'] = [
         '#type' => 'hidden',
@@ -105,7 +109,7 @@ class eguideForm extends FormBase {
         '#title' => $this->t('Distance'),
         '#maxlength' => 64,
         '#size' => 64,
-        '#required' => TRUE,
+        // '#required' => TRUE,
       ];
       $form['destination'] = [
         '#type' => 'textfield',
@@ -115,21 +119,17 @@ class eguideForm extends FormBase {
         '#size' => 64,
         '#suffix' => "<div id='map-container'><div id='map_canvas'></div></div>",
         // '#disabled' => TRUE,
-        '#required' => TRUE,
+        // '#required' => TRUE,
       ];
-      $form['submit'] = [
-        '#type' => 'submit',
-        '#title' => $this->t('Submit'),
-      ];
-      $form['submit'] = [
+      $form['actions']['submit'] = [
         '#type' => 'submit',
         '#value' => $this->t('Submit'),
       ];
 
       $form['#attached']['library'][] = 'eguide/eguide_script';
     }
-    else {
-      $form['submit'] = [
+    else if (!$print_buffer) {
+      $form['actions']['insert_coin_bill'] = [
         '#type' => 'submit',
         '#value' => $this->t('Insert Coin/Bill'),
       ];
@@ -144,27 +144,49 @@ class eguideForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
+    // parent::validateForm($form, $form_state);
   }
 
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+
     $uid = $form_state->getValue('user_id');
     $username = \Drupal::database()->query("SELECT name FROM users_field_data WHERE uid = " . $uid)->fetchField();
 
+    $tempstore = \Drupal::service('user.private_tempstore')->get('eguide');
+
     if ($form_state->getValue('op') == 'Insert Coin/Bill') {
+
       exec("python " . $_SERVER['DOCUMENT_ROOT'] . "/arduino_connect.py " . $username . " " . $uid);
+
     }
+
     else if ($form_state->getValue('op') == 'Submit') {
-      $tempstore = \Drupal::service('user.private_tempstore')->get('eguide');
+
       $tempstore->set('eguide_destination', $form_state->getValue('destination'));
 
-      // $node = Node::load($form_state->getValue('nid'));
-      // $node->field_access_status->value = "used";
-      // $node->save();
     }
+
+    // else if ($form_state->getValue('op') == 'Submit' && $filter == 'print') {
+
+    //   $filteredData = substr($image_raw, strpos($image_raw, ",")+1);
+    //   //Decode the string
+    //   $unencodedData = base64_decode($filteredData);   
+    //   //Save the image
+    //   file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/sites/default/files/mapscreenshot_' . $uid . '.png', $unencodedData);
+
+    //   $node = Node::load($form_state->getValue('nid'));
+    //   $node->field_access_status->value = "used";
+    //   $node->save();
+
+    //   $tempstore->set('print_map', '');
+
+    //   drupal_set_message("Your map screenshot is being print. Please wait.");
+    // }
+
+    return;
   }
 
 }
