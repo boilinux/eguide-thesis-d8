@@ -5,6 +5,7 @@ namespace Drupal\eguide\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\Node;
+use Drupal\Component\Serialization\Json;
 
 /**
  * Class eguideForm.
@@ -23,8 +24,7 @@ class eguideForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['#attached']['library'][] = 'eguide/eguide_script';
-    $form['#attached']['drupalSettings']['eguide']['eguide_script']['variable'] = 'lasjdflkasjdfk';
+    $output = "";
 
     $uid = \Drupal::currentUser()->id();
     $query = 0;
@@ -43,11 +43,38 @@ class eguideForm extends FormBase {
 
     // check for destination
     $eguide_destination = $tempstore->get('eguide_destination');
+    
     if (isset($eguide_destination) && !empty($eguide_destination)) {
+      $query_vehicle = \Drupal::database()->query("SELECT nfri.field_route_icon_target_id AS icon_tid, nfvp.field_vehicle_price_value AS price, nfr.field_route_value AS route, nfd.nid AS vehicle_id FROM node_field_data AS nfd
+        LEFT JOIN node__field_route_icon AS nfri ON nfri.entity_id = nfd.nid
+        LEFT JOIN node__field_vehicle_price AS nfvp ON nfvp.entity_id = nfd.nid
+        LEFT JOIN node__field_route AS nfr ON nfr.entity_id = nfd.nid
+        WHERE nfd.type = 'vehicle'")->fetchAll();
+
+      foreach ($query_vehicle as $data) {
+        $file = \Drupal\file\Entity\File::load($data->icon_tid);
+        $path = file_create_url($file->getFileUri());
+
+        $json_route = Json::decode($data->route);
+
+        $form['#attached']['drupalSettings']['eguide']['eguide_generate_route_map']['data'][] = [
+          'v_id' => $data->vehicle_id,
+          'icon' => $path,
+          'route' => $json_route,
+          'price' => $data->price
+        ];
+      }
+
       // do the mapping
-      $output = "";
-drupal_set_message($eguide_destination);
+      $form['#attached']['library'][] = 'eguide/eguide_generate_route_map';
+
       $output .= "";
+
+      $form['print'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Print'),
+        '#suffix' => "<div id='map-container'><div id='map_canvas2'></div></div>",
+      ];
 
       $tempstore->set('eguide_destination', '');
     }
@@ -62,6 +89,7 @@ drupal_set_message($eguide_destination);
       $tempstore->set('eguide_destination', '');
     }
     else if (!empty($nid)) {
+
       $form['nid'] = [
         '#type' => 'hidden',
         '#default_value' => $nid,
@@ -91,6 +119,8 @@ drupal_set_message($eguide_destination);
         '#type' => 'submit',
         '#value' => $this->t('Submit'),
       ];
+
+      $form['#attached']['library'][] = 'eguide/eguide_script';
     }
     else {
       $form['submit'] = [

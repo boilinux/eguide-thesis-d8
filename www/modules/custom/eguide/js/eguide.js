@@ -23,7 +23,7 @@ jQuery(function($) {
 			function onMapClickGuest(e) {
 				popup
         .setLatLng(e.latlng)
-        .setContent("How to get there?")
+        .setContent("How to get here?")
         .openOn(map);
 
         var where = e.latlng.wrap();
