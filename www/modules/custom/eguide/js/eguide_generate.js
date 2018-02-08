@@ -23,15 +23,12 @@ jQuery(function($) {
 	    var offSiteY =  0.00005708;
 	    for (var count in data) {
 	    	var list = data[count].route;
-	    	console.log(list);
 		    for(var i in list){
-		    	console.log(list[i]);
 		      if(i % 3 != 0){
 		          continue
 		      }
 
 		      var img = new Image();
-		      img.src = data[count].icon;
 
 		      var lat = Number(list[i].lat) + offSiteY;
 		      var lon = Number(list[i].lon) - offSiteX;
@@ -50,19 +47,10 @@ jQuery(function($) {
 		          labelColor: 'black',
 		          img: img
 		      };
-
-		      // use angeMaker plugin
+		      
 		      var angleMarker = L.angleMarker(latlng, opt);
 		      var angle = 0;
-		      if(i > 0){
-		          var previousLatLng = {lat: list[i-1].lat, lon:  list[i-1].lon};
-		          var nextLanLng = {lat: list[i].lat, lon:  list[i].lon};
 
-		          // get angele between A(previousPoint) and B(nextPoint)
-		          angle = angleMarker.getAngle(previousLatLng, nextLanLng);
-		      }
-		      // set angele A -> B
-		      angleMarker.setHeading(angle);
 		      map.addLayer(angleMarker);
 		    }
 	    }
