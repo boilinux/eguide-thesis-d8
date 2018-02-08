@@ -43,13 +43,14 @@ class eguideForm extends FormBase {
 
     // check for destination
     $eguide_destination = $tempstore->get('eguide_destination');
-    
+
     if (isset($eguide_destination) && !empty($eguide_destination)) {
-      $query_vehicle = \Drupal::database()->query("SELECT nfri.field_route_icon_target_id AS icon_tid, nfvp.field_vehicle_price_value AS price, nfr.field_route_value AS route, nfd.nid AS vehicle_id FROM node_field_data AS nfd
+      $query_vehicle = \Drupal::database()->query("SELECT nfri.field_route_icon_target_id AS icon_tid, nrdv.field_route_description_value AS description, nfr.field_route_value AS route, nfd.nid AS vehicle_id,nfd.title AS title FROM node_field_data AS nfd
         LEFT JOIN node__field_route_icon AS nfri ON nfri.entity_id = nfd.nid
-        LEFT JOIN node__field_vehicle_price AS nfvp ON nfvp.entity_id = nfd.nid
+        LEFT JOIN node__field_route_description AS nrdv ON nrdv.entity_id = nfd.nid
         LEFT JOIN node__field_route AS nfr ON nfr.entity_id = nfd.nid
         WHERE nfd.type = 'vehicle'")->fetchAll();
+      $li = "";
 
       foreach ($query_vehicle as $data) {
         $file = \Drupal\file\Entity\File::load($data->icon_tid);
@@ -61,19 +62,24 @@ class eguideForm extends FormBase {
           'v_id' => $data->vehicle_id,
           'icon' => $path,
           'route' => $json_route,
-          'price' => $data->price
         ];
+
+        $li .= "<li><span><img src='" . $path . "'/> - </span><span>" . $data->title . "</span> <span>" . $data->description . "</span></li>";
       }
 
       // do the mapping
       $form['#attached']['library'][] = 'eguide/eguide_generate_route_map';
 
-      $output .= "";
+      $output .= "<ul>" . $li . "</ul>";
 
+      $form['screenshot'] = [
+        '#type' => 'textarea',
+        '#title' => $this->t('screenshot'),
+      ];
       $form['print'] = [
         '#type' => 'submit',
         '#value' => $this->t('Print'),
-        '#suffix' => "<div id='map-container'><div id='map_canvas2'></div></div>",
+        '#suffix' => "<div id='map-container'><div id='map_canvas2'></div></div>" . $output,
       ];
 
       $tempstore->set('eguide_destination', '');

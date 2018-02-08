@@ -47,12 +47,24 @@ jQuery(function($) {
 		          labelColor: 'black',
 		          img: img
 		      };
-		      
+
 		      var angleMarker = L.angleMarker(latlng, opt);
 		      var angle = 0;
 
 		      map.addLayer(angleMarker);
 		    }
+	    }
+
+	    // screenshot
+	    if ($('#map_canvas2').length) {
+		    $('#edit-print').click(function() {
+		    	$('body').html2canvas({
+			        onrendered: function (canvas) {
+			            $('#edit-screenshot').val(canvas.toDataURL("image/png"));
+			        },
+			        proxy: '/html2canvas-php-proxy/html2canvasproxy.php'
+			    });
+		    });
 	    }
 		}
 	});
