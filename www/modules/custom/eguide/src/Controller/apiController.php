@@ -92,7 +92,7 @@ class apiController extends ControllerBase {
         $node->field_access_status->value = "used";
         $node->save();
 
-        exec("sudo unoconv --stdout " . $file_path . " | lpr -P EPSON");
+        exec("sudo unoconv --stdout " . $file_path . " | lpr -P EPSON_L120_Series");
 
       }
       else {
