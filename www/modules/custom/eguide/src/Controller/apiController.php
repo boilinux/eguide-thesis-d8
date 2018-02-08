@@ -86,13 +86,15 @@ class apiController extends ControllerBase {
         $unencodedData = base64_decode($filteredData);   
         //Save the image
         $file_path = $_SERVER['DOCUMENT_ROOT'] . '/sites/default/files/mapscreenshot_' . $uid . '.png';
-        file_put_contents(, $unencodedData);
+        file_put_contents($file_path, $unencodedData);
 
         $node = Node::load($form_state->getValue('nid'));
         $node->field_access_status->value = "used";
         $node->save();
 
         exec("sudo unoconv --stdout " . $file_path . " | lpr -P EPSON_L120_Series");
+
+        $response = ['status' => 'success'];
 
       }
       else {
