@@ -1,0 +1,3 @@
+eguide_script:
+  js:
+    js/eguide.js: {}

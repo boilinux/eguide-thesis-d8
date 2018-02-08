@@ -23,6 +23,9 @@ class eguideForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['#attached']['library'][] = 'eguide/eguide_script';
+    $form['#attached']['drupalSettings']['eguide']['eguide_script']['variable'] = 'lasjdflkasjdfk';
+
     $uid = \Drupal::currentUser()->id();
     $query = 0;
 
@@ -31,10 +34,23 @@ class eguideForm extends FormBase {
       LEFT JOIN node__field_access_status AS nfas ON nfas.entity_id = nfd.nid
       WHERE nfui.field_user_id_target_id = " . $uid . " AND nfas.field_access_status_value = 'ok'")->fetchField();
 
+    $tempstore = \Drupal::service('user.private_tempstore')->get('eguide');
+
     $form['user_id'] = [
       '#type' => 'hidden',
       '#default_value' => $uid,
     ];
+
+    // check for destination
+    $eguide_destination = $tempstore->get('eguide_destination');
+    if (isset($eguide_destination) && !empty($eguide_destination)) {
+      // do the mapping
+      $output = "";
+drupal_set_message($eguide_destination);
+      $output .= "";
+
+      $tempstore->set('eguide_destination', '');
+    }
 
     $check_python_running = exec("ps -e | grep python");
     if (!empty($check_python_running)) {
@@ -43,11 +59,19 @@ class eguideForm extends FormBase {
         '#value' => $this->t('Refresh page'),
         '#prefix' => '<h2>The system is busy. Please try again later.</h2>'
       ];
+      $tempstore->set('eguide_destination', '');
     }
     else if (!empty($nid)) {
       $form['nid'] = [
         '#type' => 'hidden',
         '#default_value' => $nid,
+      ];
+      $form['distance'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Distance'),
+        '#maxlength' => 64,
+        '#size' => 64,
+        '#required' => TRUE,
       ];
       $form['destination'] = [
         '#type' => 'textfield',
@@ -55,7 +79,9 @@ class eguideForm extends FormBase {
         '#description' => $this->t('Your destination'),
         '#maxlength' => 64,
         '#size' => 64,
-        '#prefix' => "<center><div id='map_canvas'></div></center>",
+        '#suffix' => "<div id='map-container'><div id='map_canvas'></div></div>",
+        // '#disabled' => TRUE,
+        '#required' => TRUE,
       ];
       $form['submit'] = [
         '#type' => 'submit',
@@ -71,6 +97,8 @@ class eguideForm extends FormBase {
         '#type' => 'submit',
         '#value' => $this->t('Insert Coin/Bill'),
       ];
+
+      $tempstore->set('eguide_destination', '');
     }
 
     return $form;
@@ -94,10 +122,12 @@ class eguideForm extends FormBase {
       exec("python " . $_SERVER['DOCUMENT_ROOT'] . "/arduino_connect.py " . $username . " " . $uid);
     }
     else if ($form_state->getValue('op') == 'Submit') {
-      $node = Node::load($form_state->getValue('nid'));
+      $tempstore = \Drupal::service('user.private_tempstore')->get('eguide');
+      $tempstore->set('eguide_destination', $form_state->getValue('destination'));
 
-      $node->field_access_status->value = "used";
-      $node->save();
+      // $node = Node::load($form_state->getValue('nid'));
+      // $node->field_access_status->value = "used";
+      // $node->save();
     }
   }
 
