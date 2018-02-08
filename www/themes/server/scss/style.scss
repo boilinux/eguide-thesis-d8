@@ -110,4 +110,13 @@ body.user-logged-in {
 		opacity: 0.5;
 		z-index: 1100;
 	}
+
+	form.eguide-form {
+		div#map-container {
+			margin: 10px 0;
+			div#map_canvas {
+				height: 500px;
+			}
+		}
+	}
 }

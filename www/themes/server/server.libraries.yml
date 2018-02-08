@@ -1,6 +1,7 @@
 global-styling:
   css:
     theme:
+      leaflet.tripgo.routing/css/TripgoRouting.css: {}
       css/style.css: {}
 
 bootstrap-scripts:
@@ -23,4 +24,11 @@ bootstrap-scripts:
 
 custom-script:
   js:
+    js/html2canvas.js: {}
+    js/jquery.plugin.html2canvas.js: {}
+    # tripgo
+    leaflet.tripgo.routing/dist/TripgoRouting.js: {}
+    leaflet.tripgo.routing/lib/Polyline-encoded.js: {}
+    # leaflet marker
+    leaflet-marker-direction/src/marker-direction.js: {}
     js/custom.js: {}
