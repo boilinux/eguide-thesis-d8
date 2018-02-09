@@ -57,15 +57,6 @@ jQuery(function($) {
 
 	    // screenshot
 	    if ($('#map_canvas2').length) {
-		    $('a#take-screenshot').click(function(e) {
-		    	e.preventDefault();
-
-          $('#container-screenshot').prepend("<div class='alert alert-success fade in alert-dismissable'>Screenshot, Done. You can now print.</div>");
-          $('a#take-screenshot').hide();
-          $('#edit-print').attr('style', 'display:block;');
-		    	
-		    });
-
 		    // print
 		    $('a#edit-print').click(function(e) {
 		    	e.preventDefault();
@@ -74,18 +65,17 @@ jQuery(function($) {
 			        onrendered: function (canvas) {
 			        		var img = canvas.toDataURL("image/png");
 			        		var data = JSON.stringify({"node_id": $('input[name="node_id"]').val(), "screenshot": img, 'user_id': $('input[name="user_id"]').val()});
-			        		
-			        		$('#edit-screenshot2').val(img);
 
 			        		$.ajax({
 								    url: '/eguide/api/generate_map',
 								    dataType: 'json',
-								    contentType: 'application/json; charset=UTF-8', // This is the money shot
+								    contentType: 'application/json; charset=UTF-8',
 								    headers: {"password": "ZoqH1lhVpN3hPlo5Bwy0uqxqjiCVZet6"},
 								    data: data,
 								    type: 'POST',
 								    success: function(result) {
-
+								    	alert("Your file is being printed, please wait for a moment. Thank you.");
+								    	location.reload();
 						        },
 						        error: function(result) {
 						          alert('error');

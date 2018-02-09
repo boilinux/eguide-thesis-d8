@@ -75,19 +75,13 @@ class eguideForm extends FormBase {
 
       $output .= "<ul>" . $li . "</ul>";
 
-      $form['screenshot2'] = [
-        '#type' => 'textarea',
-        '#title' => $this->t('screenshot2'),
-        '#default_value' => "test only"
-      ];
-
       $form['node_id'] = [
         '#type' => 'hidden',
         '#default_value' => $nid,
       ];
 
       $form['button_screenshot'] = [
-        '#markup' => "<div id='container-screenshot'><a href='#' id='take-screenshot' class='btn btn-primary'>Screenshot</a><a href='#' id='edit-print' class='use-ajax btn btn-info'>Print</a></div><div id='map-container'><div id='map_canvas2'></div></div>" . $output,
+        '#markup' => "<div id='container-screenshot'><a href='#' id='edit-print' class='use-ajax btn btn-info'>Print</a></div><div id='map-container'><div id='map_canvas2'></div></div>" . $output,
       ];
 
       $tempstore->set('eguide_destination', '');

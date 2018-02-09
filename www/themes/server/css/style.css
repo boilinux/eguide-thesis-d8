@@ -9711,7 +9711,3 @@ body.user-logged-in form.eguide-form div#map-container div#map_canvas {
 body.user-logged-in form.eguide-form div#map-container div#map_canvas2 {
   height: 500px;
 }
-/* line 125, ../scss/style.scss */
-body.user-logged-in form.eguide-form div.form-item-screenshot, body.user-logged-in form.eguide-form #edit-print {
-  display: none;
-}
