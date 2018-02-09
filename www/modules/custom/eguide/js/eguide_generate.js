@@ -1,8 +1,8 @@
 jQuery(function($) {
 	$(document).ready(function() {
 		if ($("div#map_canvas2").length) {
-			// var coor = [10.317928, 123.978315];
-			var coor = [30.201479, 120.155908];
+			var coor = [10.317928, 123.978315];
+			// var coor = [30.201479, 120.155908];
 			var map = L.map('map_canvas2').setView(coor, 13);
 
 			L.tileLayer('https://api.tiles.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
