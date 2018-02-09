@@ -61,7 +61,7 @@ jQuery(function($) {
 		    $('a#edit-print').click(function(e) {
 		    	e.preventDefault();
 
-		    	$('#container-screenshot').html2canvas({
+		    	$('#map-container').html2canvas({
 			        onrendered: function (canvas) {
 			        		var img = canvas.toDataURL("image/png");
 			        		var data = JSON.stringify({"node_id": $('input[name="node_id"]').val(), "screenshot": img, 'user_id': $('input[name="user_id"]').val()});
