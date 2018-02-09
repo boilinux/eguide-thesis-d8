@@ -88,7 +88,7 @@ class apiController extends ControllerBase {
         $file_path = $_SERVER['DOCUMENT_ROOT'] . '/sites/default/files/mapscreenshot_' . $uid . '.png';
         file_put_contents($file_path, $unencodedData);
 
-        $node = Node::load($form_state->getValue('nid'));
+        $node = Node::load($data['node_id']);
         $node->field_access_status->value = "used";
         $node->save();
 

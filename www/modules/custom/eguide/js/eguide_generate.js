@@ -73,7 +73,7 @@ jQuery(function($) {
 		    	$('#map_canvas2').html2canvas({
 			        onrendered: function (canvas) {
 			        		var img = canvas.toDataURL("image/png");
-			        		var data = JSON.stringify({"screenshot": img, 'user_id': $('input[name="user_id"]').val()});
+			        		var data = JSON.stringify({"node_id": $('input[name="node_id"]').val(), "screenshot": img, 'user_id': $('input[name="user_id"]').val()});
 			        		
 			        		$('#edit-screenshot2').val(img);
 
