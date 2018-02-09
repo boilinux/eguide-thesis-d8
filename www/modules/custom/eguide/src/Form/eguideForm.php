@@ -81,7 +81,7 @@ class eguideForm extends FormBase {
       ];
 
       $form['button_screenshot'] = [
-        '#markup' => "<div id='container-screenshot'><a href='#' id='edit-print' class='use-ajax btn btn-info'>Print</a></div><div id='map-container'><div id='map_canvas2'></div></div>" . $output,
+        '#markup' => "<div id='container-screenshot'><a href='#' id='edit-print' class='use-ajax btn btn-info'>Print</a></div><div id='map-container'><div id='map_canvas2'></div>" . $output . "</div>",
       ];
 
       $tempstore->set('eguide_destination', '');
