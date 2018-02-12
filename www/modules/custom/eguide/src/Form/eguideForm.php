@@ -66,12 +66,19 @@ class eguideForm extends FormBase {
           'icon' => $path,
           'route' => $json_route,
         ];
+        $form['#attached']['drupalSettings']['eguide']['eguide_generate_route_map']['data2'] = [
+          'distance' => $tempstore->get('eguide_distance'),
+          'destination' => $tempstore->get('eguide_destination'),
+        ];
 
-        $li .= "<li><span><img src='" . $path . "'/> - </span><span>" . $data->title . "</span> <span>" . $data->description . "</span></li>";
+        $li .= "<li class='destination' data-lon='" . $json_route[0]['lon'] . "' data-lat='" . $json_route[0]['lat'] . "'><span><img src='" . $path . "'/> - </span><span>" . $data->title . "</span> <span>" . $data->description . "</span></li>";
       }
 
       // do the mapping
       $form['#attached']['library'][] = 'eguide/eguide_generate_route_map';
+
+      $distance = $tempstore->get('eguide_distance') / 1000;
+      $output .= "<div><p>Calculated distance is " . number_format($distance) . "km</p></div>";
 
       $output .= "<ul>" . $li . "</ul>";
 
@@ -164,26 +171,10 @@ class eguideForm extends FormBase {
 
     else if ($form_state->getValue('op') == 'Submit') {
 
+      $tempstore->set('eguide_distance', $form_state->getValue('distance'));
       $tempstore->set('eguide_destination', $form_state->getValue('destination'));
 
     }
-
-    // else if ($form_state->getValue('op') == 'Submit' && $filter == 'print') {
-
-    //   $filteredData = substr($image_raw, strpos($image_raw, ",")+1);
-    //   //Decode the string
-    //   $unencodedData = base64_decode($filteredData);   
-    //   //Save the image
-    //   file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/sites/default/files/mapscreenshot_' . $uid . '.png', $unencodedData);
-
-    //   $node = Node::load($form_state->getValue('nid'));
-    //   $node->field_access_status->value = "used";
-    //   $node->save();
-
-    //   $tempstore->set('print_map', '');
-
-    //   drupal_set_message("Your map screenshot is being print. Please wait.");
-    // }
 
     return;
   }

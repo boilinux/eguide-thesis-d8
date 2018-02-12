@@ -9711,3 +9711,11 @@ body.user-logged-in form.eguide-form div#map-container div#map_canvas {
 body.user-logged-in form.eguide-form div#map-container div#map_canvas2 {
   height: 500px;
 }
+/* line 126, ../scss/style.scss */
+body.user-logged-in li.destination {
+  cursor: pointer;
+}
+/* line 129, ../scss/style.scss */
+body.user-logged-in div.form-item-destination, body.user-logged-in div.form-item-distance {
+  display: none;
+}

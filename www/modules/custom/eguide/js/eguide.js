@@ -28,8 +28,7 @@ jQuery(function($) {
 
         var where = e.latlng.wrap();
 
-
-        $('input#edit-destination').val(where.lat + "," + where.lng);
+        $('input#edit-destination').val('{"lat":' + where.lat + ',"lon":' + where.lng + '}');
         $('input#edit-distance').val(e.latlng.distanceTo(coor));
 			}
 			// Admin guide

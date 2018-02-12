@@ -122,4 +122,11 @@ body.user-logged-in {
 			}
 		}
 	}
+
+	li.destination {
+		cursor: pointer;
+	}
+	div.form-item-destination, div.form-item-distance {
+		display: none;
+	}
 }

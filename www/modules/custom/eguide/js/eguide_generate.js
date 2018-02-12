@@ -1,8 +1,11 @@
 jQuery(function($) {
 	$(document).ready(function() {
 		if ($("div#map_canvas2").length) {
-			var coor = [10.317928, 123.978315];
-			// var coor = [30.201479, 120.155908];
+			var data = drupalSettings.eguide.eguide_generate_route_map.data;
+			var data2 = drupalSettings.eguide.eguide_generate_route_map.data2;
+			var raw_coor = JSON.parse(data2.destination);
+			var coor = [raw_coor.lat, raw_coor.lon];
+
 			var map = L.map('map_canvas2').setView(coor, 13);
 
 			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYm9pbGludXgiLCJhIjoiY2pkOXlybTN2MzVvbjMxcnp6dHc2NDAybyJ9.qdK7xyLfow0fwj4s4fCtDg', {
@@ -14,9 +17,8 @@ jQuery(function($) {
 
 			var popup = L.popup();
 
-			var data = drupalSettings.eguide.eguide_generate_route_map.data;
-
-			L.marker(coor).addTo(map).bindPopup('You are here.').openPopup();
+			L.marker([10.317928, 123.978315]).addTo(map).bindPopup('Your here.').openPopup();
+			L.marker(coor).addTo(map).bindPopup('Your destination.').openPopup();
 
 			// generate map route
 			var offSiteX = -0.00001532;
@@ -84,6 +86,15 @@ jQuery(function($) {
 			        },
 			        proxy: '/html2canvas-php-proxy/html2canvasproxy.php'
 			    });
+		    });
+
+		    // destination
+		    $('li.destination').click(function() {
+		    	var lat = $(this).attr('data-lat');
+		    	var lon = $(this).attr('data-lon');
+		    	var latlng = L.latLng(lat, lon);
+
+		    	map.flyTo(latlng, 14);
 		    });
 	    }
 		}
