@@ -138,8 +138,8 @@ class eguideForm2 extends FormBase {
 
       $form['#attached']['library'][] = 'eguide/eguide_script';
       $form['#attached']['drupalSettings']['eguide']['eguide_map']['data'] = [
-        'lat' => '10.317928',
-        'lon' => '123.978315',
+        'lat' => '10.298278',
+        'lon' => '123.893426',
       ];
     }
     else if (!$print_buffer) {
