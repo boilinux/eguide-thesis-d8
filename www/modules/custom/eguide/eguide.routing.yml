@@ -6,6 +6,20 @@ eguide.eguide_form:
   requirements:
     _custom_access: '\Drupal\eguide\Controller\apiController::user_auth'
 
+eguide.eguide_form2:
+  path: '/eguide/form2'
+  defaults:
+    _form: '\Drupal\eguide\Form\eguideForm2'
+  requirements:
+    _custom_access: '\Drupal\eguide\Controller\apiController::user_auth'
+
+eguide.eguide_form3:
+  path: '/eguide/form3'
+  defaults:
+    _form: '\Drupal\eguide\Form\eguideForm3'
+  requirements:
+    _custom_access: '\Drupal\eguide\Controller\apiController::user_auth'
+
 eguide.save_data:
   path: '/eguide/api/savedata'
   methods: [POST]

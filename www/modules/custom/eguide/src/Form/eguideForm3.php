@@ -17,7 +17,7 @@ class eguideForm extends FormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'eguide_form';
+    return 'eguide_form3';
   }
 
   /**
