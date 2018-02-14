@@ -10,7 +10,7 @@ use Drupal\Component\Serialization\Json;
 /**
  * Class eguideForm.
  */
-class eguideForm extends FormBase {
+class eguideForm2 extends FormBase {
 
 
   /**
