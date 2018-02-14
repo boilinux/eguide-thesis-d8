@@ -41,7 +41,7 @@ jQuery(function($) {
 				map.on('click', onMapClickGuest);
 			} 
 
-			L.marker(coor).addTo(map).bindPopup('You are here.').openPopup();
+			L.marker(coor).addTo(map).bindPopup('Start.').openPopup();
 		}
 	});
 });
