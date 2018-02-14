@@ -111,15 +111,13 @@ body.user-logged-in {
 		z-index: 1100;
 	}
 
-	form.eguide-form {
-		div#map-container {
-			margin: 10px 0;
-			div#map_canvas {
-				height: 500px;
-			}
-			div#map_canvas2 {
-				height: 500px;
-			}
+	div#map-container {
+		margin: 10px 0;
+		div#map_canvas {
+			height: 500px;
+		}
+		div#map_canvas2 {
+			height: 500px;
 		}
 	}
 
