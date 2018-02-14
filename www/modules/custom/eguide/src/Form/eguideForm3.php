@@ -71,8 +71,8 @@ class eguideForm3 extends FormBase {
           'destination' => $tempstore->get('eguide_destination'),
         ];
         $form['#attached']['drupalSettings']['eguide']['eguide_generate_route_map']['data3'] = [
-          'lat' => '10.317928',
-          'lon' => '123.978315',
+          'lat' => '10.297001',
+          'lon' => '123.896827',
         ];
 
         $li .= "<li class='destination' data-lon='" . $json_route[0]['lon'] . "' data-lat='" . $json_route[0]['lat'] . "'><span><img src='" . $path . "'/> - </span><span>" . $data->title . "</span> <span>" . $data->description . "</span></li>";
