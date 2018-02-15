@@ -19,7 +19,6 @@ jQuery(function($) {
 			var popup = L.popup();
 
 			L.marker([data3.lat, data3.lon]).addTo(map).bindPopup('Start.').openPopup();
-			L.marker(coor).addTo(map).bindPopup('Your destination.').openPopup();
 
 			// generate map route
 			var offSiteX = -0.00001532;
@@ -94,6 +93,8 @@ jQuery(function($) {
 		    	var lat = $(this).attr('data-lat');
 		    	var lon = $(this).attr('data-lon');
 		    	var latlng = L.latLng(lat, lon);
+					
+					L.marker([lat, lon]).addTo(map).bindPopup('Your destination.').openPopup();
 
 		    	map.flyTo(latlng, 14);
 		    });
