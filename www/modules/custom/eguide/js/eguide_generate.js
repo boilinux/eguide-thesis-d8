@@ -90,8 +90,9 @@ jQuery(function($) {
 		    	var lat = $(this).attr('data-lat');
 		    	var lon = $(this).attr('data-lon');
 		    	var latlng = L.latLng(lat, lon);
+		    	var dis = L.latLng(data2.lat, data2.lon);
 
-		    	$('span.distance-value').text(map.latlng.distanceTo(latlng));
+		    	$('span.distance-value').text(dis.latlng.distanceTo(latlng));
 					
 					L.marker([lat, lon]).addTo(map).bindPopup('Your destination.').openPopup();
 
