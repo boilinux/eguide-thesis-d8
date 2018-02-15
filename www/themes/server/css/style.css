@@ -9714,8 +9714,13 @@ body.user-logged-in div#map-container div#map_canvas2 {
 /* line 124, ../scss/style.scss */
 body.user-logged-in li.destination {
   cursor: pointer;
+  padding: 5px;
 }
-/* line 127, ../scss/style.scss */
+/* line 128, ../scss/style.scss */
+body.user-logged-in li.destination:hover {
+  background: #eee;
+}
+/* line 131, ../scss/style.scss */
 body.user-logged-in div.form-item-destination, body.user-logged-in div.form-item-distance {
   display: none;
 }

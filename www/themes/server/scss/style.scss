@@ -123,6 +123,10 @@ body.user-logged-in {
 
 	li.destination {
 		cursor: pointer;
+		padding: 5px;
+	}
+	li.destination:hover {
+		background: #eee;
 	}
 	div.form-item-destination, div.form-item-distance {
 		display: none;
