@@ -24,7 +24,7 @@ class eguideForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $coordinates = ['lat': '10.317928', 'lon' => '123.978315'];
+    $coordinates = ['lat' => '10.317928', 'lon' => '123.978315'];
     $output = "";
 
     $uid = \Drupal::currentUser()->id();
@@ -70,7 +70,7 @@ class eguideForm extends FormBase {
           'route' => $json_route,
         ];
 
-        $form['#attached']['drupalSettings']['eguide']['eguide_generate_route_map']['data3'] = $coordinates;
+        $form['#attached']['drupalSettings']['eguide']['eguide_generate_route_map']['data2'] = $coordinates;
 
         $li .= "<li class='destination' data-lon='" . $json_route[0]['lon'] . "' data-lat='" . $json_route[0]['lat'] . "'><span><img src='" . $path . "'/> - </span><span>" . $data->title . "</span> <span>" . $data->description . "</span></li>";
       }
@@ -92,7 +92,7 @@ class eguideForm extends FormBase {
       ];
 
     }
-    else if (!$print_buffer) {
+    else {
       $form['actions']['insert_coin_bill'] = [
         '#type' => 'submit',
         '#value' => $this->t('Insert Coin/Bill'),

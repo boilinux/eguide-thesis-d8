@@ -3,9 +3,6 @@ jQuery(function($) {
 		if ($("div#map_canvas2").length) {
 			var data = drupalSettings.eguide.eguide_generate_route_map.data;
 			var data2 = drupalSettings.eguide.eguide_generate_route_map.data2;
-			var data3 = drupalSettings.eguide.eguide_generate_route_map.data3;
-			var raw_coor = JSON.parse(data2.destination);
-			var coor = [raw_coor.lat, raw_coor.lon];
 
 			var map = L.map('map_canvas2').setView(coor, 13);
 
@@ -18,7 +15,7 @@ jQuery(function($) {
 
 			var popup = L.popup();
 
-			L.marker([data3.lat, data3.lon]).addTo(map).bindPopup('Start.').openPopup();
+			L.marker([data2.lat, data2.lon]).addTo(map).bindPopup('Start.').openPopup();
 
 			// generate map route
 			var offSiteX = -0.00001532;
