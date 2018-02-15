@@ -10,14 +10,14 @@ use Drupal\Component\Serialization\Json;
 /**
  * Class eguideForm.
  */
-class eguideForm extends FormBase {
+class eguideForm2 extends FormBase {
 
 
   /**
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'eguide_form';
+    return 'eguide_form2';
   }
 
   /**
