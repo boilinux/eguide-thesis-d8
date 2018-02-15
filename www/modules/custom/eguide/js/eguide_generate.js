@@ -91,7 +91,7 @@ jQuery(function($) {
 		    	var lon = $(this).attr('data-lon');
 		    	var latlng = L.latLng(lat, lon);
 
-		    	$('span.distance-value').text(e.latlng.distanceTo([data2.lat, data2.lon]));
+		    	$('span.distance-value').text(map.latlng.distanceTo(latlng));
 					
 					L.marker([lat, lon]).addTo(map).bindPopup('Your destination.').openPopup();
 
