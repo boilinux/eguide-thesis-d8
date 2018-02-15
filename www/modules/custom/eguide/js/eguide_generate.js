@@ -90,7 +90,7 @@ jQuery(function($) {
 		    	var lat = $(this).attr('data-lat');
 		    	var lon = $(this).attr('data-lon');
 		    	var latlng = L.latLng(lat, lon);
-		    	var dis = L.latLng(data2.lat, data2.lon).distanceTo(latlng);
+		    	var dis = L.latLng(data2.lat, data2.lon).distanceTo(latlng) / 1000;
 
 		    	$('span.distance-value').text(dis.toFixed(2));
 					
