@@ -4,7 +4,7 @@ jQuery(function($) {
 			var data = drupalSettings.eguide.eguide_generate_route_map.data;
 			var data2 = drupalSettings.eguide.eguide_generate_route_map.data2;
 
-			var map = L.map('map_canvas2').setView(coor, 13);
+			var map = L.map('map_canvas2').setView([data2.lat, data2.lon], 13);
 
 			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYm9pbGludXgiLCJhIjoiY2pkOXlybTN2MzVvbjMxcnp6dHc2NDAybyJ9.qdK7xyLfow0fwj4s4fCtDg', {
 		    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
