@@ -81,6 +81,9 @@ while 1:
 				ser.write('{"token":"' + token + '","username":"' + sys.argv[1] + '","uid":"' + sys.argv[2] + '","action":"change","change":"' + str(coin) + '"}')
 			if ( int(coin) >= 5):
 				send_data(uid, sys.argv[1])
+
+				espeaktxt = "espeak " + voice + " Thank you for using eguide. Have a nice day!\""
+				espeak_func(espeaktxt)
 		if (op == "no_activity"):
 			espeaktxt = "espeak " + voice + " \"Hi " + sys.argv[1] + ", Transaction cancelled.\""
 			espeak_func(espeaktxt)
