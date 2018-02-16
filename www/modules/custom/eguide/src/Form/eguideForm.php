@@ -74,7 +74,7 @@ class eguideForm extends FormBase {
 
         $form['#attached']['drupalSettings']['eguide']['eguide_generate_route_map']['data2'] = $coordinates;
 
-        $li .= "<li class='destination' data-lon='" . $json_route[0]['lon'] . "' data-lat='" . $json_route[0]['lat'] . "'><span><img src='" . $path . "'/> - </span><span>" . $data->title . "</span> <span>" . $data->description . "</span></li>";
+        $li .= "<li class='destination' data-title='" . $data->title . "' data-lon='" . $json_route[0]['lon'] . "' data-lat='" . $json_route[0]['lat'] . "'><span><img src='" . $path . "'/> - </span><span>" . $data->title . "</span> <span>" . $data->description . "</span></li>";
       }
 
       // do the mapping
