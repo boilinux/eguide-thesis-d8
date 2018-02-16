@@ -124,6 +124,10 @@ body.user-logged-in {
 	li.destination {
 		cursor: pointer;
 		padding: 5px;
+		margin: 0 5px;
+		float: left;
+		width: 20%;
+		display: inline-block;
 	}
 	li.destination:hover {
 		background: #eee;
