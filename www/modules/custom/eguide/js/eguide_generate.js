@@ -86,6 +86,7 @@ jQuery(function($) {
 		    });
 
 		    // destination
+		    var marker;
 		    $('li.destination').click(function() {
 		    	var lat = $(this).attr('data-lat');
 		    	var lon = $(this).attr('data-lon');
@@ -94,7 +95,11 @@ jQuery(function($) {
 
 		    	$('span.distance-value').text(dis.toFixed(2));
 					
-					L.marker([lat, lon]).addTo(map).bindPopup('Your destination.').openPopup().closePopup();
+					if (marker) {
+						map.removeLayer(marker);
+					}
+
+					marker = L.marker([lat, lon]).addTo(map).bindPopup('Your destination.').openPopup();
 
 		    	map.flyTo(latlng, 14);
 		    });
