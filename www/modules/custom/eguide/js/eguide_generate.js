@@ -99,7 +99,7 @@ jQuery(function($) {
 						map.removeLayer(marker);
 					}
 
-					marker = L.marker([lat, lon]).addTo(map).bindPopup($(this.attr('data-title'))).openPopup();
+					marker = L.marker([lat, lon]).addTo(map).bindPopup($(this).attr('data-title')).openPopup();
 
 		    	map.flyTo(latlng, 14);
 		    });
