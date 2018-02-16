@@ -25,6 +25,7 @@ class eguideForm2 extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $coordinates = ['lat' => '10.298278', 'lon' => '123.893426'];
+    $location = 'south';
     $output = "";
 
     $uid = \Drupal::currentUser()->id();
@@ -55,7 +56,8 @@ class eguideForm2 extends FormBase {
         LEFT JOIN node__field_route_icon AS nfri ON nfri.entity_id = nfd.nid
         LEFT JOIN node__field_route_description AS nrdv ON nrdv.entity_id = nfd.nid
         LEFT JOIN node__field_route AS nfr ON nfr.entity_id = nfd.nid
-        WHERE nfd.type = 'vehicle'")->fetchAll();
+        LEFT JOIN node__field_destination_location AS nfdl ON nfdl.entity_id = nfd.nid
+        WHERE nfd.type = 'vehicle' AND nfdl.field_destination_location_value = '" . $location . "'")->fetchAll();
       $li = "";
 
       foreach ($query_vehicle as $data) {
