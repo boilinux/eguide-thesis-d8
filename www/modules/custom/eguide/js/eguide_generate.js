@@ -94,7 +94,7 @@ jQuery(function($) {
 
 		    	$('span.distance-value').text(dis.toFixed(2));
 					
-					L.marker([lat, lon]).addTo(map).bindPopup('Your destination.',{'autoClose': false}).openPopup();
+					L.marker([lat, lon]).addTo(map).bindPopup('Your destination.').openPopup().closePopup();
 
 		    	map.flyTo(latlng, 14);
 		    });
