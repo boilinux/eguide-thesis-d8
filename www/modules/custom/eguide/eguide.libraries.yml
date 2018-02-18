@@ -1,6 +1,6 @@
-eguide_script:
+eguide_gmap:
   js:
-    js/eguide.js: {}
+    js/eguide_gmap2.js: {}
 
 eguide_generate_route_map:
   js:

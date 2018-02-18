@@ -53,3 +53,5 @@ main-file
 themes/photography/.sass-cache
 v4.1.0
 html2canvas-php-proxy/images
+sites/default/files
+sites/default

@@ -25,7 +25,7 @@ class eguideForm2 extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $coordinates = ['lat' => '10.298278', 'lon' => '123.893426'];
-    $location = 'south';
+    $location = 'airport';
     $output = "";
 
     $uid = \Drupal::currentUser()->id();
@@ -60,27 +60,44 @@ class eguideForm2 extends FormBase {
         WHERE nfd.type = 'vehicle' AND nfdl.field_destination_location_value = '" . $location . "'")->fetchAll();
       $li = "";
 
+      $form['#attached']['drupalSettings']['eguide']['eguide_gmap']['data2'] = $coordinates;
+
       foreach ($query_vehicle as $data) {
         $file = \Drupal\file\Entity\File::load($data->icon_tid);
         $path = file_create_url($file->getFileUri());
 
         $json_route = Json::decode($data->route);
 
-        $form['#attached']['drupalSettings']['eguide']['eguide_generate_route_map']['data'][] = [
+        $form['#attached']['drupalSettings']['eguide']['eguide_gmap']['data'][] = [
           'v_id' => $data->vehicle_id,
           'icon' => $path,
           'route' => $json_route,
         ];
 
-        $form['#attached']['drupalSettings']['eguide']['eguide_generate_route_map']['data2'] = $coordinates;
-
         $li .= "<li class='destination' data-title='" . $data->title . "' data-lon='" . $json_route[0]['lon'] . "' data-lat='" . $json_route[0]['lat'] . "'><span><img src='" . $path . "'/> - </span><span>" . $data->title . "</span> <span>" . $data->description . "</span></li>";
       }
 
       // do the mapping
-      $form['#attached']['library'][] = 'eguide/eguide_generate_route_map';
+      $form['#attached']['library'][] = 'eguide/eguide_gmap';
 
-      $output .= "<div><p class='map-destinace'>Calculated distance is <span class='distance-value'>0</span>km</p></div>";
+      // $output .= "<div><p class='map-destinace'>Calculated distance is <span class='distance-value'>0</span>km</p></div>";
+
+      $form['address'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Address'),
+      ];
+      $form['travelmode'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Travel mode'),
+        '#options' => [
+          'driving' => 'Driving',
+          'walking' => 'Walking',
+          'bicycling' => 'Bicycling',
+          'transit' => 'Transit'
+        ],
+        '#default_value' => 'driving',
+        '#suffix' => "<a href='#' id='btn-address' class='btn btn-info'>Search</a>",
+      ];
 
       $output .= "<ul>" . $li . "</ul>";
 
@@ -90,7 +107,7 @@ class eguideForm2 extends FormBase {
       ];
 
       $form['button_screenshot'] = [
-        '#markup' => "<div id='container-screenshot'><a href='#' id='edit-print' class='use-ajax btn btn-info'>Print</a></div><div id='map-container'><div id='map_canvas2'></div>" . $output . "</div>",
+        '#markup' => "<div id='map-container'><div id='map_canvas2'></div><div id='directions'></div>" . $output . "</div><div id='container-screenshot'><a href='#' id='edit-print' class='use-ajax btn btn-info'>Print</a></div>",
       ];
 
     }

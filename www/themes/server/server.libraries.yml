@@ -27,8 +27,11 @@ custom-script:
     js/html2canvas.js: {}
     js/jquery.plugin.html2canvas.js: {}
     # tripgo
-    leaflet.tripgo.routing/dist/TripgoRouting.js: {}
-    leaflet.tripgo.routing/lib/Polyline-encoded.js: {}
-    # leaflet marker
-    leaflet-marker-direction/src/marker-direction.js: {}
+    # leaflet.tripgo.routing/dist/TripgoRouting.js: {}
+    # leaflet.tripgo.routing/lib/Polyline-encoded.js: {}
+    # # leaflet marker
+    # leaflet-marker-direction/src/marker-direction.js: {}
+    # gmaps/googlemap.js: {}
+    http://maps.google.com/maps/api/js?key=AIzaSyALm3ZjMI1Z9GNo3Nq1lzqA0_P0QcDGZsU: {}
+    gmaps/gmaps.js: {}
     js/custom.js: {}
