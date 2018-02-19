@@ -43,10 +43,12 @@ jQuery(function($) {
 	    $('li.destination').click(function() {
 	    	var lat = $(this).attr('data-lat');
 	    	var lon = $(this).attr('data-lon');
+		
+		$("html, body").animate({ scrollTop: 0 }, "slow");
 
 	    	map.renderRoute({
           origin: [data2.lat, data2.lon],
-          destination: [lat, lng],
+          destination: [lat, lon],
           travelMode: transit,
           strokeColor: strokecolor,
           strokeOpacity: 0.6,
