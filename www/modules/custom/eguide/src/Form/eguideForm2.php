@@ -63,8 +63,11 @@ class eguideForm2 extends FormBase {
       $form['#attached']['drupalSettings']['eguide']['eguide_gmap']['data2'] = $coordinates;
 
       foreach ($query_vehicle as $data) {
-        $file = \Drupal\file\Entity\File::load($data->icon_tid);
-        $path = file_create_url($file->getFileUri());
+        $path = "";
+        if ($data->icon_tid) {
+          $file = \Drupal\file\Entity\File::load($data->icon_tid);
+          $path = file_create_url($file->getFileUri());
+        }
 
         $json_route = Json::decode($data->route);
 
