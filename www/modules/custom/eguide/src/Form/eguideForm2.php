@@ -25,7 +25,7 @@ class eguideForm2 extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $coordinates = ['lat' => '10.298278', 'lon' => '123.893426'];
-    $location = 'airport';
+    $location = 'north';
     $output = "";
 
     $uid = \Drupal::currentUser()->id();
