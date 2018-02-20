@@ -37,14 +37,17 @@ jQuery(function($) {
 	      	content: "You are here!",
 	      }
 	    });
-
+	    // direction
+	    $('#directions').click(function() {
+	    	$("html, body").animate({ scrollTop: 0 }, "slow");
+	    });
 	    // destination
 	    var marker;
 	    $('li.destination').click(function() {
 	    	var lat = $(this).attr('data-lat');
 	    	var lon = $(this).attr('data-lon');
 		
-		$("html, body").animate({ scrollTop: 0 }, "slow");
+				$("html, body").animate({ scrollTop: 0 }, "slow");
 
 	    	map.renderRoute({
           origin: [data2.lat, data2.lon],
