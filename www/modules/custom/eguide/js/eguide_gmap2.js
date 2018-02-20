@@ -38,7 +38,7 @@ jQuery(function($) {
 	      }
 	    });
 	    // direction
-	    $('#directions').click(function() {
+	    $('div#directions').on('click', function() {
 	    	$("html, body").animate({ scrollTop: 0 }, "slow");
 	    });
 	    // destination
