@@ -98,7 +98,7 @@ class eguideForm2 extends FormBase {
           'bicycling' => 'Bicycling',
           'transit' => 'Transit'
         ],
-        '#default_value' => 'driving',
+        '#default_value' => 'transit',
         '#suffix' => "<a href='#' id='btn-address' class='btn btn-info'>Search</a>",
       ];
 
