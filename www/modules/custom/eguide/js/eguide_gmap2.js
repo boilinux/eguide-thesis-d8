@@ -7,6 +7,35 @@ jQuery(function($) {
 			var transit = $('#edit-travelmode').val();
 			var strokecolor = '#eeeeee';
 
+			// print
+	    $('a#edit-print').click(function(e) {
+	    	e.preventDefault();
+
+	    	$('#map-container').html2canvas({
+		        onrendered: function (canvas) {
+		        		var img = canvas.toDataURL("image/png");
+		        		var data = JSON.stringify({"node_id": $('input[name="node_id"]').val(), "screenshot": img, 'user_id': $('input[name="user_id"]').val()});
+
+		        		$.ajax({
+							    url: '/eguide/api/generate_map',
+							    dataType: 'json',
+							    contentType: 'application/json; charset=UTF-8',
+							    headers: {"password": "ZoqH1lhVpN3hPlo5Bwy0uqxqjiCVZet6"},
+							    data: data,
+							    type: 'POST',
+							    success: function(result) {
+							    	alert("Your file is being printed, please wait for a moment. Thank you.");
+							    	location.reload();
+					        },
+					        error: function(result) {
+					          alert('error');
+					        }
+								});
+		        },
+		        proxy: '/html2canvas-php-proxy/html2canvasproxy.php'
+		    });
+	    });
+			
 			var map = new GMaps({
 	      el: '#map_canvas2',
 	      lat: data2.lat,
@@ -82,7 +111,7 @@ jQuery(function($) {
 
 	              map.renderRoute({
 				          origin: [data2.lat, data2.lon],
-				          destination: [latlng.lat(), latlng.lng()],
+				          destination: [latlng.lat() - 10, latlng.lng() - 10],
 				          travelMode: transit,
 				          strokeColor: strokecolor,
 				          strokeOpacity: 0.6,
